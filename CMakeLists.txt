@@ -1,18 +1,28 @@
-cmake_minimum_required(VERSION 3.10)
-project(Vatrych4)
+cmake_minimum_required(VERSION 3.14)  
+project(Vatrych4)  
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# FetchContent for GoogleTest  
+include(FetchContent)  
+FetchContent_Declare(  
+    googletest  
+    GIT_REPOSITORY https://github.com/google/googletest.git  
+    GIT_TAG release-1.11.0  
+)  
+FetchContent_MakeAvailable(googletest)  
 
-# Main executable
-add_executable(Vatrych4 main.cpp math_operations.cpp)
+set(CMAKE_CXX_STANDARD 14)  
 
-# Enable testing
-enable_testing()
+# Your source files  
+set(SOURCE_FILES  
+    src/main.cpp  
+    src/other_file.cpp  
+)  
 
-# Unit tests executable
-add_executable(unit_tests tests/unit_tests.cpp math_operations.cpp)
-target_include_directories(unit_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+# Add executable  
+add_executable(Vatrych4 ${SOURCE_FILES})  
 
-# Add test
-add_test(NAME UnitTests COMMAND unit_tests)
+# Add tests  
+enable_testing()  
+add_executable(Vatrych4_tests test/main_test.cpp)  
+target_link_libraries(Vatrych4_tests gtest gtest_main)  
+add_test(NAME Vatrych4Tests COMMAND Vatrych4_tests)  
