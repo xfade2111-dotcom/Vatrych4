@@ -1,28 +1,22 @@
-cmake_minimum_required(VERSION 3.14)  
-project(Vatrych4)  
+# CMakeLists.txt for Vatrych4
 
-# FetchContent for GoogleTest  
-include(FetchContent)  
-FetchContent_Declare(  
-    googletest  
-    GIT_REPOSITORY https://github.com/google/googletest.git  
-    GIT_TAG release-1.11.0  
-)  
-FetchContent_MakeAvailable(googletest)  
+cmake_minimum_required(VERSION 3.10)
+project(Vatrych4)
 
-set(CMAKE_CXX_STANDARD 14)  
+# Google Test support
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 
-# Your source files  
-set(SOURCE_FILES  
-    src/main.cpp  
-    src/other_file.cpp  
-)  
+# Set up the unit_tests executable
+add_executable(unit_tests main.cpp)
 
-# Add executable  
-add_executable(Vatrych4 ${SOURCE_FILES})  
+# Link GTest libraries
+target_link_libraries(unit_tests GTest::gtest_main GTest::gmock)
 
-# Add tests  
-enable_testing()  
-add_executable(Vatrych4_tests test/main_test.cpp)  
-target_link_libraries(Vatrych4_tests gtest gtest_main)  
-add_test(NAME Vatrych4Tests COMMAND Vatrych4_tests)  
+# Build instructions:
+# 1. Create a build directory: `mkdir build && cd build`
+# 2. Run CMake: `cmake ..`
+# 3. Build the project: `make`
+
+# Test instructions:
+# 1. After building, run the unit tests: `./unit_tests`
